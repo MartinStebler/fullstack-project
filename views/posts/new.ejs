@@ -1,13 +1,13 @@
 <% const title = 'New Post'; %>
-<%- include('../partials/head', { title }) %>
 <form action="/posts" method="post">
-  <label>Title</label>
-  <input type="text" name="title" required />
-  <label>Content</label>
-  <textarea name="content" rows="6"></textarea>
-  <button type="submit">Create</button>
-  <a href="/posts">Cancel</a>
+  <label class="block text-sm font-medium text-gray-700">Title</label>
+  <input type="text" name="title" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500" />
+  <label class="mt-4 block text-sm font-medium text-gray-700">Content</label>
+  <textarea name="content" rows="6" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"></textarea>
+  <div class="mt-4 flex items-center gap-3">
+    <button type="submit" class="inline-flex items-center rounded-md bg-blue-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-offset-2">Create</button>
+    <a href="/posts" class="text-sm text-gray-600 hover:underline">Cancel</a>
+  </div>
   </form>
-<%- include('../partials/foot') %>
 
 
