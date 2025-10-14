@@ -20,17 +20,20 @@ Simple CRUD app using Express, EJS, Prisma, and Postgres. Run locally and deploy
    cd fullstack-project
    npm install
    ```
-2. Create a Neon database:
-   - In Neon, signup then create a project and database.
-   - Copy the pooled connection string with TLS, e.g.:
+2. Create a Neon database (prod + dev branch):
+   - In Neon, signup then create a project and database (this is your prod/main branch).
+   - Create a second branch in Neon called `dev` (recommended for local development).
+   - Copy BOTH pooled connection strings with TLS:
+     - Prod (main) URL → used on Render later
+     - Dev (branch) URL → used locally in `.env`
      ```
      postgresql://USER:PASSWORD@HOST:PORT/DB?sslmode=require&pgbouncer=true&connection_limit=1
      ```
-3. Create `.env` at the project root:
+3. Create `.env` at the project root with the DEV branch URL:
    ```bash
-   DATABASE_URL="postgresql://USER:PASSWORD@HOST:PORT/DB?sslmode=require&pgbouncer=true&connection_limit=1"
+   DATABASE_URL="postgresql://USER:PASSWORD@DEV_HOST:PORT/DB?sslmode=require&pgbouncer=true&connection_limit=1"
    ```
-4. Initialize Prisma and the DB schema:
+4. Initialize Prisma and the DB schema (applies to DEV branch URL):
    ```bash
    npx prisma migrate dev --name init
    ```
@@ -68,23 +71,23 @@ Optional:
    - Start command: `npm start`
    - Build: Render runs `npm install` (then `postinstall` runs `prisma generate`)
 4. Environment Variables:
-   - `DATABASE_URL` = your Neon pooled URL (copy snippet)
+   - `DATABASE_URL` = your Neon PROD (main) pooled URL (with `sslmode=require&pgbouncer=true&connection_limit=1`)
 
 ## 4) Auto-Deploys
 - Enable Auto-Deploys in the service settings so pushes to `main` redeploy automatically.
 
-## Use separate Neon branches for Dev and Prod (recommended)
-- In Neon: create a new branch (e.g., `dev`) from your main branch.
-- Local development: set `.env` to the dev branch connection string.
+## Workflow: develop → migrate → deploy
+- Change schema: edit `prisma/schema.prisma`.
+- Apply locally to DEV DB and create migration files:
   ```bash
-  # .env (local)
-  DATABASE_URL="postgresql://USER:PASSWORD@DEV_HOST:PORT/DB?sslmode=require&pgbouncer=true&connection_limit=1"
+  npx prisma migrate dev --name <change-name>
   ```
-- Production (Render): set the Web Service `DATABASE_URL` to the main/prod branch connection string in the Render dashboard.
-- Workflow:
-  1) Develop locally against the dev branch, use the following command when you changed to schema → `npx prisma migrate dev`
-  2) Commit `prisma/migrations/**`
-  3) Push to GitHub → Render deploy runs `prisma migrate deploy` against prod URL
+- Verify locally (and via `npx prisma studio` if needed).
+- Commit and push (include `prisma/migrations/**`).
+- Deploy: Render pulls your code and automatically runs:
+  - `postinstall` → `prisma generate`
+  - `prestart` → `prisma migrate deploy` (applies committed migrations to PROD DB)
+- If no new migrations exist, deploy continues without changes.
 
 ## Scripts
 - `npm run dev` — start with nodemon
