@@ -10,11 +10,11 @@ Simple CRUD app using Express, EJS, Prisma, and Postgres. Run locally and deploy
 ## Prerequisites
 - Node 18+ (or 20.x)
 - GitHub account
-- Neon account (Postgres, free)
-- Render account (hosting, free)
+- neon.tech account (Postgres, free)
+- render.com account (hosting, free)
 
 ## 1) Local Setup
-1. Clone & install:
+1. Fork, clone & install:
    ```bash
    git clone <your-repo-url>
    cd fullstack-project
@@ -29,10 +29,10 @@ Simple CRUD app using Express, EJS, Prisma, and Postgres. Run locally and deploy
      ```
      postgresql://USER:PASSWORD@HOST:PORT/DB?sslmode=require&pgbouncer=true&connection_limit=1
      ```
-3. Create `.env` at the project root with the DEV branch URL:
+3. Create `.env` at the project root with the DEV branch URL (DIRECT_URL is non pooled version):
    ```bash
    DATABASE_URL="postgresql://USER:PASSWORD@DEV_HOST:PORT/DB?sslmode=require&pgbouncer=true&connection_limit=1"
-   DIRECT_URL="postgresql://USER:PASSWORD@DEV_HOST:PORT/DB?sslmode=require" (non pooled version)
+   DIRECT_URL="postgresql://USER:PASSWORD@DEV_HOST:PORT/DB?sslmode=require"
    ```
 4. Initialize Prisma and the DB schema (applies to DEV branch URL):
    ```bash
