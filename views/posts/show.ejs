@@ -1,0 +1,17 @@
+<% const title = post.title; %>
+<%- include('../partials/head', { title }) %>
+<article>
+  <h2><%= post.title %></h2>
+  <p><%= post.content || 'No content' %></p>
+  <p><small>Created: <%= new Date(post.createdAt).toLocaleString() %></small></p>
+  <div class="actions">
+    <a href="/posts/<%= post.id %>/edit">Edit</a>
+    <form action="/posts/<%= post.id %>/delete" method="post" onsubmit="return confirm('Delete this post?');">
+      <button type="submit">Delete</button>
+    </form>
+  </div>
+  <p><a href="/posts">Back</a></p>
+</article>
+<%- include('../partials/foot') %>
+
+

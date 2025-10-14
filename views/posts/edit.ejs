@@ -1,0 +1,13 @@
+<% const title = `Edit: ${post.title}`; %>
+<%- include('../partials/head', { title }) %>
+<form action="/posts/<%= post.id %>" method="post">
+  <label>Title</label>
+  <input type="text" name="title" value="<%- post.title %>" required />
+  <label>Content</label>
+  <textarea name="content" rows="6"><%- post.content || '' %></textarea>
+  <button type="submit">Save</button>
+  <a href="/posts/<%= post.id %>">Cancel</a>
+</form>
+<%- include('../partials/foot') %>
+
+

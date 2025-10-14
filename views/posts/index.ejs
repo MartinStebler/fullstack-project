@@ -1,0 +1,17 @@
+<% const title = 'All Posts'; %>
+<%- include('../partials/head', { title }) %>
+<% if (!posts.length) { %>
+  <p>No posts yet. <a href="/posts/new">Create the first one</a>.</p>
+<% } else { %>
+  <ul>
+    <% posts.forEach(p => { %>
+      <li>
+        <a href="/posts/<%= p.id %>"><%= p.title %></a>
+        <small> — <%= new Date(p.createdAt).toLocaleString() %></small>
+      </li>
+    <% }) %>
+  </ul>
+<% } %>
+<%- include('../partials/foot') %>
+
+

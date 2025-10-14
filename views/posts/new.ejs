@@ -1,0 +1,13 @@
+<% const title = 'New Post'; %>
+<%- include('../partials/head', { title }) %>
+<form action="/posts" method="post">
+  <label>Title</label>
+  <input type="text" name="title" required />
+  <label>Content</label>
+  <textarea name="content" rows="6"></textarea>
+  <button type="submit">Create</button>
+  <a href="/posts">Cancel</a>
+  </form>
+<%- include('../partials/foot') %>
+
+

@@ -1,0 +1,4 @@
+setup render database and add to .env file as DATABASE_URL=
+npm install
+npx prisma migrate dev --name init
+npm run dev
