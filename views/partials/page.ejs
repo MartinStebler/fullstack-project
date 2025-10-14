@@ -1,7 +1,0 @@
-<% // Page wrapper that injects content into layout.ejs %>
-<%- include('../layout', {
-  title: typeof title !== 'undefined' ? title : undefined,
-  body: (function(){ return typeof content === 'function' ? content() : (content || '') })()
-}) %>
-
-
