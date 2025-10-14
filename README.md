@@ -19,8 +19,6 @@ Simple CRUD app using Express, EJS, Prisma, and Postgres. Run locally and deploy
    git clone <your-repo-url>
    cd fullstack-project
    npm install
-   npx prisma migrate dev --name init
-   npm run dev
    ```
 2. Create a Neon database (prod + dev branch):
    - In Neon, signup then create a project and database (this is your prod/main branch).
@@ -34,6 +32,7 @@ Simple CRUD app using Express, EJS, Prisma, and Postgres. Run locally and deploy
 3. Create `.env` at the project root with the DEV branch URL:
    ```bash
    DATABASE_URL="postgresql://USER:PASSWORD@DEV_HOST:PORT/DB?sslmode=require&pgbouncer=true&connection_limit=1"
+   DIRECT_URL="postgresql://USER:PASSWORD@DEV_HOST:PORT/DB?sslmode=require" (non pooled version)
    ```
 4. Initialize Prisma and the DB schema (applies to DEV branch URL):
    ```bash
@@ -70,10 +69,18 @@ Optional:
 2. In Render, create a Web Service and connect your GitHub repo.
 3. Settings:
    - Branch: `main`
-   - Start command: `npm start`
+   - Start command: `npm start` (or `npm run prisma:deploy && node index.js`)
    - Build: Render runs `npm install` (then `postinstall` runs `prisma generate`)
-4. Environment Variables:
-   - `DATABASE_URL` = your Neon PROD (main) pooled URL (with `sslmode=require&pgbouncer=true&connection_limit=1`)
+4. Environment Variables (Neon + Prisma recommended):
+   - `DATABASE_URL` = pooled URL for the app runtime
+   - `DIRECT_URL` = direct (non-pooled) URL for migrations
+   
+   Example:
+   ```
+   DATABASE_URL=postgresql://USER:PASSWORD@HOST:PORT/DB?sslmode=require&pgbouncer=true&connection_limit=1
+   DIRECT_URL=postgresql://USER:PASSWORD@HOST:PORT/DB?sslmode=require
+   ```
+   Note: `DIRECT_URL` is used by Prisma Migrate; your app uses `DATABASE_URL`.
 
 ## 4) Auto-Deploys
 - Enable Auto-Deploys in the service settings so pushes to `main` redeploy automatically.
@@ -88,14 +95,15 @@ Optional:
 - Commit and push (include `prisma/migrations/**`).
 - Deploy: Render pulls your code and automatically runs:
   - `postinstall` → `prisma generate`
-  - `prestart` → `prisma migrate deploy` (applies committed migrations to PROD DB)
+  - `prestart` → `prisma migrate deploy` (applies committed migrations to PROD DB using `DIRECT_URL` if set)
 - If no new migrations exist, deploy continues without changes.
 
 ## Scripts
-- `npm run dev` — start with nodemon (used for local dev)
-- `npm start` — start server (production, automatically used by render)
-- `npm run prisma:migrate` — `prisma migrate dev` (used to created migration files)
-- `npm run prisma:deploy` — `prisma migrate deploy` (not used locally)
+- `npm run dev` — start with nodemon
+- `npm start` — start server (production)
+- `npm run prisma:migrate` — `prisma migrate dev`
+- `npm run prisma:deploy` — `prisma migrate deploy`
+- `npm run prisma:generate` — `prisma generate`
 
 ## Troubleshooting
 - EJS: Ensure views include `views/partials/head.ejs` and `views/partials/foot.ejs`.
