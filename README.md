@@ -19,6 +19,8 @@ Simple CRUD app using Express, EJS, Prisma, and Postgres. Run locally and deploy
    git clone <your-repo-url>
    cd fullstack-project
    npm install
+   npx prisma migrate dev --name init
+   npm run dev
    ```
 2. Create a Neon database (prod + dev branch):
    - In Neon, signup then create a project and database (this is your prod/main branch).
@@ -90,11 +92,10 @@ Optional:
 - If no new migrations exist, deploy continues without changes.
 
 ## Scripts
-- `npm run dev` — start with nodemon
-- `npm start` — start server (production)
-- `npm run prisma:migrate` — `prisma migrate dev`
-- `npm run prisma:deploy` — `prisma migrate deploy`
-- `npm run prisma:generate` — `prisma generate`
+- `npm run dev` — start with nodemon (used for local dev)
+- `npm start` — start server (production, automatically used by render)
+- `npm run prisma:migrate` — `prisma migrate dev` (used to created migration files)
+- `npm run prisma:deploy` — `prisma migrate deploy` (not used locally)
 
 ## Troubleshooting
 - EJS: Ensure views include `views/partials/head.ejs` and `views/partials/foot.ejs`.
