@@ -7,11 +7,14 @@ generator client {
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
+  // Use a non-pooled connection for migrations (Neon + Prisma recommendation)
+  directUrl = env("DIRECT_URL")
 }
 
 model Post {
   id        Int      @id @default(autoincrement())
   title     String
+  tag       String @default("uncategorized")
   content   String?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
