@@ -362,3 +362,4 @@ app.get('/', (req, res) => {
 - Basic validation only (email format, password length)
 - No email verification or password reset (can be added later)
 
+
